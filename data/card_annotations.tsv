@@ -1,0 +1,16 @@
+gene_name	antibiotic	gene_family
+blaKPC-2	Meropenem	Class A beta-lactamase
+blaNDM-1	Imipenem	Metallo-beta-lactamase
+mecA	Oxacillin	PBP2a
+vanA	Vancomycin	D-Ala-D-Lac ligase
+vanB	Vancomycin	D-Ala-D-Lac ligase
+tet(M)	Tetracycline	Ribosomal protection
+erm(B)	Erythromycin	rRNA methylase
+mcr-1	Colistin	Phosphoethanolamine transferase
+qnrA	Ciprofloxacin	Target protection
+aac(6')-Ib-cr	Ciprofloxacin	Aminoglycoside acetyltransferase
+blaCTX-M-15	Ceftriaxone	Extended-spectrum beta-lactamase
+sul1	Sulfamethoxazole	Sulfonamide resistant dihydropteroate synthase
+dfrA1	Trimethoprim	Trimethoprim resistant dihydrofolate reductase
+ampC	Cefoxitin	AmpC-type beta-lactamase
+blaOXA-48	Meropenem	Class D beta-lactamase

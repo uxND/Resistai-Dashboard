@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "blaKPC-2", "label": "blaKPC-2", "shape": "dot", "size": 25, "title": "Gene Family: Class A beta-lactamase", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Meropenem", "label": "Meropenem", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "blaOXA-48", "label": "blaOXA-48", "shape": "dot", "size": 25, "title": "Gene Family: Class D beta-lactamase", "type": "gene"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "blaNDM-1", "label": "blaNDM-1", "shape": "dot", "size": 25, "title": "Gene Family: Metallo-beta-lactamase", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Imipenem", "label": "Imipenem", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "mecA", "label": "mecA", "shape": "dot", "size": 25, "title": "Gene Family: PBP2a", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Oxacillin", "label": "Oxacillin", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "vanA", "label": "vanA", "shape": "dot", "size": 25, "title": "Gene Family: D-Ala-D-Lac ligase", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Vancomycin", "label": "Vancomycin", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "vanB", "label": "vanB", "shape": "dot", "size": 25, "title": "Gene Family: D-Ala-D-Lac ligase", "type": "gene"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "tet(M)", "label": "tet(M)", "shape": "dot", "size": 25, "title": "Gene Family: Ribosomal protection", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Tetracycline", "label": "Tetracycline", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "erm(B)", "label": "erm(B)", "shape": "dot", "size": 25, "title": "Gene Family: rRNA methylase", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Erythromycin", "label": "Erythromycin", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "mcr-1", "label": "mcr-1", "shape": "dot", "size": 25, "title": "Gene Family: Phosphoethanolamine transferase", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Colistin", "label": "Colistin", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "qnrA", "label": "qnrA", "shape": "dot", "size": 25, "title": "Gene Family: Target protection", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Ciprofloxacin", "label": "Ciprofloxacin", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "aac(6\u0027)-Ib-cr", "label": "aac(6\u0027)-Ib-cr", "shape": "dot", "size": 25, "title": "Gene Family: Aminoglycoside acetyltransferase", "type": "gene"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "blaCTX-M-15", "label": "blaCTX-M-15", "shape": "dot", "size": 25, "title": "Gene Family: Extended-spectrum beta-lactamase", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Ceftriaxone", "label": "Ceftriaxone", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "sul1", "label": "sul1", "shape": "dot", "size": 25, "title": "Gene Family: Sulfonamide resistant dihydropteroate synthase", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Sulfamethoxazole", "label": "Sulfamethoxazole", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "dfrA1", "label": "dfrA1", "shape": "dot", "size": 25, "title": "Gene Family: Trimethoprim resistant dihydrofolate reductase", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Trimethoprim", "label": "Trimethoprim", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}, {"color": "#7F77DD", "font": {"color": "#333333"}, "group": 1, "id": "ampC", "label": "ampC", "shape": "dot", "size": 25, "title": "Gene Family: AmpC-type beta-lactamase", "type": "gene"}, {"color": "#1D9E75", "font": {"color": "#333333"}, "group": 2, "id": "Cefoxitin", "label": "Cefoxitin", "shape": "square", "size": 35, "title": "Antibiotic Class", "type": "antibiotic"}]);
+                  edges = new vis.DataSet([{"from": "blaKPC-2", "to": "Meropenem", "width": 2}, {"from": "Meropenem", "to": "blaOXA-48", "width": 2}, {"from": "blaNDM-1", "to": "Imipenem", "width": 2}, {"from": "mecA", "to": "Oxacillin", "width": 2}, {"from": "vanA", "to": "Vancomycin", "width": 2}, {"from": "Vancomycin", "to": "vanB", "width": 2}, {"from": "tet(M)", "to": "Tetracycline", "width": 2}, {"from": "erm(B)", "to": "Erythromycin", "width": 2}, {"from": "mcr-1", "to": "Colistin", "width": 2}, {"from": "qnrA", "to": "Ciprofloxacin", "width": 2}, {"from": "Ciprofloxacin", "to": "aac(6\u0027)-Ib-cr", "width": 2}, {"from": "blaCTX-M-15", "to": "Ceftriaxone", "width": 2}, {"from": "sul1", "to": "Sulfamethoxazole", "width": 2}, {"from": "dfrA1", "to": "Trimethoprim", "width": 2}, {"from": "ampC", "to": "Cefoxitin", "width": 2}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"borderWidth": 2, "borderWidthSelected": 4}, "edges": {"color": {"inherit": true}, "smooth": {"type": "continuous"}}, "physics": {"forceAtlas2Based": {"gravitationalConstant": -100, "centralGravity": 0.01, "springLength": 150, "springConstant": 0.08}, "minVelocity": 0.75, "solver": "forceAtlas2Based", "stabilization": {"iterations": 150}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
